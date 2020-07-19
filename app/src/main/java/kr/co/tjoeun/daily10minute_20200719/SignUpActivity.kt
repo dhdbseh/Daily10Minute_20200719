@@ -3,6 +3,7 @@ package kr.co.tjoeun.daily10minute_20200719
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.pwEdt
 import kotlinx.android.synthetic.main.activty_sign_up.*
@@ -11,6 +12,53 @@ class SignUpActivity : BaseActivity() {
 
 
     override fun setupEvents() {
+
+//        회원가입 버튼 누르면 -> 빈 입력값이 있는지 검사하고
+//        -> 괜찮으면 실제로 서버에 가입 요청
+
+        okBtn.setOnClickListener {
+//            입력한 이메일부터 검사하자
+            val inputEmail = emailEdt.text.toStriong()
+
+            if (inputEmail.isEmpty()){
+                Toast.makeText(mContext, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show()
+
+//                가입절차 강제종료
+                return@setOnClickListener
+            }
+            else if (!inputEmail.contains("@")) {
+//                @가 없다면, 이메일 양식이 아닌걸로 간주하자.
+                Toast.makeText(mContext, "이메일 양식으로 입력해주세요.", Toast.LENGTH_SHORT).show()
+
+                return@setOnClickListener
+            }
+
+//            이메일 검사는 모두 통과한 상황
+//            비밀번호 길이가 8자 이상인지
+
+            val inputPw = pwEdt.text.toString()
+
+            if (inputPw.length < 8){
+                Toast.makeText(mContext, "비밀번호가 너무 짧습니다.", Toast.LENGTH_SHORT).show()
+
+                return@setOnClickListener
+            }
+
+//            닉네임은 입력했는지만 검사할게
+
+            val inputNickname = nickNameEdt.text.toString()
+
+            if (inputNickname.isEmpty()) {
+                Toast.makeText(mContext, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+//            이메일 / 비번 / 닉네임 검사를 모두 통과한 상황
+//            서버에 실제로 가입 신청.
+
+//            ServerUtil.po
+
+        }
 
 //        EditText (비번 입력칸)에 글자를 타이핑하는 이벤트 체크
         pwEdt.addTextChangedListener(object : TextWatcher {
