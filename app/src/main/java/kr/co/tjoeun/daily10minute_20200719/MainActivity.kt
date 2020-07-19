@@ -36,6 +36,10 @@ class MainActivity : BaseActivity() {
 
                     if (codeNum == 200){
                         //로그인 성공
+
+                        val data = json.getJSONObject("data")
+
+                        val token = data.getJSONObject("")
                     }
                     else{
                         //로그인 실패
