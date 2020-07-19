@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.co.tjoeun.daily10minute_20200719.utils.ContextUtil
+import kr.co.tjoeun.daily10minute_20200719.utils.MainActivity2
 import kr.co.tjoeun.daily10minute_20200719.utils.ServerUtil
 import org.json.JSONObject
 
@@ -43,6 +44,12 @@ class MainActivity : BaseActivity() {
                         val token = data.getJSONObject("token")
 
                         ContextUtil.setLoginUserToken(mContext, token)
+
+                        val myIntent = Intent(mContext, MainActivity2::class.java)
+                        startActivity(myIntent)
+
+                        finish()
+
                     }
                     else{
                         //로그인 실패
