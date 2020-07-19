@@ -4,9 +4,9 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.pwEdt
 import kotlinx.android.synthetic.main.activty_sign_up.*
+import kr.co.tjoeun.daily10minute_20200719.utils.ServerUtil
+import org.json.JSONObject
 
 class SignUpActivity : BaseActivity() {
 
@@ -18,7 +18,7 @@ class SignUpActivity : BaseActivity() {
 
         okBtn.setOnClickListener {
 //            입력한 이메일부터 검사하자
-            val inputEmail = emailEdt.text.toStriong()
+            val inputEmail = emailEdt.text.toString()
 
             if (inputEmail.isEmpty()){
                 Toast.makeText(mContext, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show()
@@ -55,6 +55,36 @@ class SignUpActivity : BaseActivity() {
 
 //            이메일 / 비번 / 닉네임 검사를 모두 통과한 상황
 //            서버에 실제로 가입 신청.
+
+            ServerUtil.putRequestSignUp(mContext, inputEmail, inputPw, inputNickname, object : ServerUtil.JsonResponseHandler{
+                override fun onResponse(json: JSONObject) {
+
+//                    서버가 알려주는 코드값이 200이면 가입 성공처리.
+//                    아니라면 가입 실패 처리.
+
+                    val code = json.getInt("code")
+
+                    if(code == 200) {
+                        runOnUiThread {
+                            Toast.makeText(mContext, "회원가입에 성공했습니다.", Toast.LENGTH_SHORT).show()
+//                            로그인 화면으로 복귀
+                            finish()
+                        }
+                    }
+                    else{
+//                        가입 실패 상황. -> 왜 실패했는지 토스트로 출력
+
+                        val message = json.getString("message")
+
+                        runOnUiThread {
+                            Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                }
+
+
+            })
 
 //            ServerUtil.po
 
