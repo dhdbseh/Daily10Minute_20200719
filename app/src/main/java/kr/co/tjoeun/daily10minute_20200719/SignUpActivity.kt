@@ -25,7 +25,6 @@ class SignUpActivity : BaseActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 //비번 확인 로직 실행
                 checkPasswords()
-                Log.d("입력된내용", s.toString())
             }
 
         })
